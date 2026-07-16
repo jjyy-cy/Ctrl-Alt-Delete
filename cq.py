@@ -20,7 +20,6 @@ class CircularQueue:
 
     def __init__(self, size: int):
         self.size = size
-        # Delete the line below and write your code here
         self._data = [None] * size
         self.head = -1
         self.tail = 0
@@ -38,8 +37,17 @@ class CircularQueue:
         Return
             None
         """
-        # Delete the line below and write your code here
-        
+        if self.tail == -1:
+            raise IndexError('queue is full')
+        if self.head == -1:
+            self.head = self.tail
+
+        self._data[self.tail] = item
+        next_tail = (self.tail + 1) % self.size
+        if next_tail == self.head:
+            self.tail = -1
+        else: 
+            self.tail = next_tail
 
     def dequeue(self) -> tuple[int, int]:
         """Return the item at the head of the queue.
@@ -50,21 +58,23 @@ class CircularQueue:
         Return
             item
         """
-        # Delete the line below and write your code here
-        raise NotImplementedError("dequeue not implemented")
+        if self.head == -1:
+            raise IndexError('queue is empty; nothing to dequeue')
+        if self.tail == -1:
+            self.tail = self.head
+        value = self._data[self.head]
+        next_head = (self.head + 1 ) % self.size
+        if next_head == self.tail:
+            self.head = -1
+        else: 
+            self.head = next_head
+        return value
+            
 
 
     def is_full(self) -> bool:
         """Returns True if full or False otherwise"""
-
         return (self.tail + 1) % self.size == self.head
-    
-
-
-
-    returnn self.head
-
-
 
 
 if __name__ == "__main__":
