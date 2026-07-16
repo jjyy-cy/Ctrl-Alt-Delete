@@ -39,12 +39,12 @@ class CircularQueue:
         """
         if self.tail == -1:
             raise IndexError('queue is full')
-        if self.head == -1:
+        if self.head == -1: #empty
             self.head = self.tail
 
         self._data[self.tail] = item
         next_tail = (self.tail + 1) % self.size
-        if next_tail == self.head:
+        if next_tail == self.head: #cq is full
             self.tail = -1
         else: 
             self.tail = next_tail
@@ -60,9 +60,16 @@ class CircularQueue:
         """
         if self.head == -1:
             raise IndexError('queue is empty; nothing to dequeue')
+        
+        #if queue is full, the tail wraps back to the current index of the head
         if self.tail == -1:
             self.tail = self.head
+
         value = self._data[self.head]
+
+        # if the head exceeds the tail, then the list would be empty, 
+        # but the cq must still allow head to have a greater index
+        # than the tail (wrap around)
         next_head = (self.head + 1 ) % self.size
         if next_head == self.tail:
             self.head = -1
@@ -70,7 +77,6 @@ class CircularQueue:
             self.head = next_head
         return value
             
-
 
     def is_full(self) -> bool:
         """Returns True if full or False otherwise"""
